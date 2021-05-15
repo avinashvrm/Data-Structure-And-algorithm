@@ -27,7 +27,7 @@ public:
         
         if(s.find(endWord)==s.end() || beginWord==endWord)
             return 0;
-        int ans = 1;
+        int ans = 0;
         
         q.push(beginWord);
         while(!q.empty())
@@ -38,7 +38,7 @@ public:
                 auto w = q.front();
                 q.pop();
                 if(w==endWord)
-                    return ans;
+                    return ans+1;
                 add_to_queue(w,s,q);
             }
             ans++;
