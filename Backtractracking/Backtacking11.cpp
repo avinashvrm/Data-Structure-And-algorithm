@@ -2,7 +2,9 @@ class Solution {
 public:
     vector<vector<string>> partition(string s)
     {
-        vector<vector<string>> ret;
+        vector<vector<string>> ret;                             //Input: s = "aab"
+        
+                                                                //Output: [["a","a","b"],["aa","b"]]
         if(s.empty()) 
             return ret;
         
