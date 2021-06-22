@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool find132pattern(vector<int>& nums) 
-    {
+    {                                                                           //return true if -- i < j < k and nums[i] < nums[k] < nums[j].
         int n = nums.size();
         //132
         stack<int> s;
