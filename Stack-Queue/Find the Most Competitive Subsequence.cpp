@@ -13,7 +13,7 @@ public
         stack<int> st;
         for(int i=0;i<n;i++)
         {
-            while(!st.empty() && st.top()>nums[i] && n-i-1 >= k-st.size())
+            while(!st.empty() && st.top()>nums[i] && n-i-1 >= k-st.size())//Agar koi chota element milta h then, stk ke top se compare krnge and array m remaining eles must be >= req elemenst tb hi pop kr paenge
                 st.pop();
                
             if(st.size() < k)
