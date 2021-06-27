@@ -1,3 +1,9 @@
+// SIMPLE STEPS I HAVE APPLIED IN THIS PROBLEM ARE
+
+// store each layer into the array (layer is wrt the border of the array ).(similar to spiral matrix concept)
+// rotate the array by K(Array rotation concept).
+// put the rotated array into the corresponding layer of the answer.
+// move to the inner layer.(mere nai hai)
 class Solution {
 public:
     //function to rate the layer by k times (array rotation concept)
