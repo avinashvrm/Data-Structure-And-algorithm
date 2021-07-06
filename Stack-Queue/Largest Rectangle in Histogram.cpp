@@ -1,3 +1,7 @@
+// A building can expand only when a neighbouring buildings have heights greater than or equal height as curr building.
+// So in order to find how much a building can expand we have to find the index of Nearest Smaller to left and right and expandable width = NSR - NSL
+// Therefor to find Area, we just mutiply with height and return the maxmum one.
+// To find NSR and NSL we use stack of pair(for storing index)
 typedef vector<int> vi;
 #define pb push_back
 class Solution {
