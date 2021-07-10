@@ -18,27 +18,46 @@ public:
     }
 };
 */
-
-/*class Solution {
-private:
-    unordered_map<Node*, Node*> visited;
+class Solution {
 public:
-    Node* cloneGraph(Node* node) {
-        if(node == NULL)
-            return node;
-        if(visited[node])
-            return visited[node];
+    void dfs(Node* u, unordered_map<Node*,Node*>& mp)
+    {   
+        Node* u_copy = new Node(u->val);
         
-        Node* cloned = new Node(node->val);
-        visited[node] = cloned;
-        
-        for(auto nei: node->neighbors){
-            cloned->neighbors.push_back(cloneGraph(nei));
-        }
-        return cloned;
-        
+        mp.insert({u,u_copy});
+        for(auto v: u->neighbors)
+        {
+            if(mp.find(v) == mp.end()){
+                dfs(v,mp);
+            }
+        }       
     }
-};*/
+    
+    void addEdges( unordered_map<Node*,Node*>& mp)
+    {       
+        for(auto u: mp)// iterate through map
+        {
+            for(auto v: u.first->neighbors) // iterate through neighbours
+            {
+                u.second->neighbors.push_back(mp[v]);//add the neighbors to copy node neighbors vector 
+            }
+        }
+    }
+    Node* cloneGraph(Node* node) {
+        
+        if(node ==NULL)
+            return NULL;
+        unordered_map<Node*,Node*> mp;
+        // apply the dfs
+        dfs(node,mp);
+        addEdges(mp);//Linking Process
+        
+        return mp[node]; // mp[node] contains the reference of copy_node
+    }
+};
+
+
+// BFS
 class Solution {
 public:
     Node* cloneGraph(Node* node)
