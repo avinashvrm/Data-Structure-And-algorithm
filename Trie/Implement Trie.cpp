@@ -62,7 +62,20 @@ public:
         }
         return (curr->endsHere > 0);    
     }
-    
+    void Triedelete(string s)
+    {
+        if(search(s))
+        {
+            Trienode *curr = root;
+            int index;
+            for(int i=0; s[i]!='\0'; ++i)
+            {
+                index = s[i]-'a';
+                curr->child[index]->count -=1;
+                curr = curr->child[index];
+            }
+        }
+    }
     /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) 
     {
