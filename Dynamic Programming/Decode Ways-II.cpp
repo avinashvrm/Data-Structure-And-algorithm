@@ -1,80 +1,148 @@
 class Solution {
 public:
-    int numDecodings(string s) 
+    int n,mod=1e9+7;
+    vector<int> v;
+    int find(int i, string &s)
     {
-        int n = s.size();
-	    int m = (int)1e9+7;
-        // Array to store the dp states
-        vector<long long int> dp(n+1,0);
-
-        // Case of empty string
-        dp[0]=1;
-
-        // Condition to check if the
-        // first character of string is 0
-        if(s[0]=='0')
-            return 0;
-
-        // Base case for single length
-        // string
-        dp[1] = ((s[0]=='*')? 9 : 1);
-
-        // Bottom-up dp for the string
-        for(int i=2;i<=n;i++)
+        if(i==n) return 1;
+        if(i>n)  return 0;
+        if(v[i]!=-1) return v[i];
+        if(s[i]=='0') return 0;
+        
+        int c=0;
+        /*
+        if current value is 1, there are following ways
+        
+        1.  Take single digit 1 and move to next index i+1 
+        2.  Take two digits here, (11,12--19 all are valide) and move to i+2 
+        3.  If next digit is * , then * -> [1,9]. So, iterate 1 to 9 and take everytime 2 digit
+            ie, if * ->1 then it will be 11
+                if * ->2 then it will be 12
+                .
+                .
+                if * ->9 then it will be 19
+             
+        */
+        if(s[i]=='1')
         {
-            // Previous character
-            char first= s[i-2];
-
-            // Current character
-            char second= s[i-1];
-
-            // Case to include the Current
-            // digit as a single digit for
-            // decoding the string
-            if(second=='*')
+            //taking single digit and move to i+1
+            c+=find(i+1,s); c%=mod;
+            
+            //if next is * , 9 possibilities, take two digit and move to i+2
+            if(i+1<n && s[i+1]=='*')
             {
-                dp[i]+= 9*dp[i-1];
-            }
-            else if(second>'0')
-                dp[i]+=dp[i-1];
-            // Case to include the current
-            // character as two-digit for
-            // decoding the string
-            if(first=='1'|| first=='2')
-            {
-
-                // Condition to check if the
-                // current character is "*"
-                if(second=='*')
+                for(int k=1;k<=9;k++)
                 {
-                    if(first=='1')
-                        dp[i]+= 9 * dp[i-2];
-                    else if(first=='2')
-                        dp[i]+= 6 * dp[i-2];
+                    c+=find(i+2,s);
+                    c%=mod;
                 }
-
-                // Condition to check if the
-                // current character is less than
-                // or equal to 26
-                else if(((first-'0')* 10 + (second-'0'))<= 26)
-                    dp[i]+=dp[i-2];
             }
-
-            // Condition to check if the
-            // Previous digit is equal to "*"
-            else if(first=='*')
-            {
-                if(second=='*')
-                {
-                    dp[i]+= 15 * dp[i-2];
-                }
-                else if(second<='6')
-                    dp[i]+= 2* dp[i-2];
-                else
-                    dp [i]+= dp[i-2];
-            }
-            dp[i]%=m;
+            
+            //else next may be any on from [0,9], so take two digit and move to i+2
+            else 
+                c+=find(i+2,s);
+            
+            c%=mod;
         }
-        return dp[n];
+        /*
+        if current value is 2, there are following ways
+        
+        1.  Take single digit 2 and move to next index i+1 
+        2.  Take two digits here, (21,22--26 all are valide) and move to i+2 , we can't take 27,28 etc
+        3.  If next digit is * , then * -> [1,9]. So, iterate 1 to 6 only and take everytime 2 digit
+            ie, if * ->1 then it will be 21
+                if * ->2 then it will be 22
+                .
+                .
+                if * ->6 then it will be 26
+                
+             We cant take 27 because it will be invalid   
+             
+        */
+        //if s[i]==2
+        else if(s[i]=='2')
+        {
+            //taking single digit and move to i+1
+            c+=find(i+1,s);
+            c%=mod;
+            
+            //if next is *, we can only take 1 to 6 because [21,22,23,24,25,26] is only valid
+            //so, iterate 6 times and assume taking two digit "2*" and move to i+2 
+            if(i+1<n && s[i+1]=='*')
+            {
+                for(int k=1;k<=6;k++)
+                {
+                    c+=find(i+2,s); c%=mod;
+                } 
+            }
+            
+            //else if next digit is less than 7 then we can take this
+            //it will make [21,22,23,24,25,26]
+            else if(i+1<n && s[i+1]<='6') 
+                c+=find(i+2,s);
+            
+            c%=mod;
+        }
+        
+        //if s[i] is *
+        else if(s[i]=='*')
+        {
+            //taking * as 1, 
+            //it will be same case s[i]=1, which is upper case
+            c+=find(i+1,s); 
+            c%=mod;
+            
+            if(i+1<n && s[i+1]=='*')
+            {
+                for(int k=1;k<=9;k++)
+                {
+                    c+=find(i+2,s);
+                    c%=mod;
+                }
+            }
+            else 
+                c+=find(i+2,s); c%=mod;        
+            //taking * as 2,
+            //it will be same case s[i]=2, which is upper case
+            c+=find(i+1,s);
+            c%=mod;
+            if(i+1<n && s[i+1]=='*')
+            {
+                for(int k=1;k<=6;k++)
+                {
+                    c+=find(i+2,s); c%=mod;
+                } 
+            }
+            else if(i+1<n && s[i+1]<='6') 
+                c+=find(i+2,s); c%=mod;
+            
+            //taking * as >2
+            //you can only take single digit, we have taken 1 and 2, so start from 3 to 9
+            for(int k=3;k<=9;k++)
+            {
+                c+=find(i+1,s); c%=mod;
+            }
+        }
+        
+        //else we have digit greater than 2
+        //so we can take single digit only and move to i+1
+        else
+        {
+           c+=find(i+1,s); c%=mod;
+        }
+        
+        //take mod every time and memoize it and return result
+        return v[i]=c%mod;
+    }
+    int numDecodings(string s) {
+        
+        //finding size of given string
+        n=s.size();
+        
+        //use for memoization
+        v=vector<int> (n+1,-1);
+        
+        //let's find ways from 0th index
+        return find(0,s);
     }
 };
