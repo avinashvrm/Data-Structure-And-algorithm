@@ -32,3 +32,47 @@ public:
         
     }
 };
+// instead of visited vector using bitmasking of checking occurences
+class Solution {
+public:
+    bool go(vector<int>&nums,int i,int n,long mask, int k, int csum, int tsum)
+    {
+        
+     
+    // Base Condition if There are k-1 groups with sum tsum then last group will also have sum tsum    
+        if(k==1)
+            return true;
+        
+   //if group found iterate from start for k-1 groups     
+        if(csum == tsum)
+        {
+           
+            return go(nums,0,n,mask,k-1,0,tsum);
+        }
+		else if(csum>tsum)                              //backtrack if current sum > target sum
+            return false;
+        
+	// try all possible combination which are not visited 
+        for(int j=i;j<n;j++)
+        {
+            if(!(mask&(1<<j)))                          //check if visited
+            {
+                if(go(nums,j,n,mask|(1<<j),k,csum+nums[j],tsum))        // next combination with j position marked as visited
+                    return true;
+              
+            }
+        }
+        return false;
+    }
+    
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int tsum=0;
+        int n = nums.size();
+        for(int i:nums) tsum+=i;
+        if(tsum%k!=0)
+            return false;
+        tsum/=k;
+      
+        return go(nums,0,n, 0,k,0,tsum);
+    }
+};
