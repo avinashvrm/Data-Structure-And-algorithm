@@ -19,8 +19,7 @@ public:
         }
         return false;
     }
-    bool canPartitionKSub
-        sets(vector<int>& nums, int k) {
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
         vector<int>visited(nums.size(),false);
         int sum=0;
         for(auto x:nums) sum+=x;
