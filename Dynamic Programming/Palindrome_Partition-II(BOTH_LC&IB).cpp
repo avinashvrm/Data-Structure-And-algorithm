@@ -1,3 +1,12 @@
+// Input 2:
+//     A = "aab"
+    
+// Output 2:
+//     1
+
+// Explanation 2:
+//     Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+
 class Solution {
 public:
     int dp[2002][2002];
