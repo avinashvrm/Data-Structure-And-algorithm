@@ -6,8 +6,9 @@ public:
     long long dp[1<<15][180];
     int find(vector<int>&nums,int mask,int sum,int se,int n)
     {
-        if(mask==(1<<n)-1)
+        if(mask==(1<<n)-1)// iska matlb sare n-1 places are filled with one,i.e all the given tasks are completed
         {
+            //cout<<mask<<"   "<<(1<<n)-1<<endl;
             return 1;
         }
         int ans=INT_MAX;
