@@ -11,7 +11,7 @@ public:
             last_index[s[i] - 'a'] = i; // track the lastIndex of character presence
         
         bool seen[26] = {0}; // keep track seen
-        stack<char> st;
+        stack<char> st;// to optimise the space take string and do all the stack operation in it
         
         for (int i = 0; i < s.length(); i++) 
         {
