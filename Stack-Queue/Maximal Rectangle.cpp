@@ -10,25 +10,20 @@ public:
         int pleft = -1; 
         for(int i=0;i<n;i++)
         {
-            if(s1.empty()==true){
-                left.pb(pleft);
-            }
-            else if(s1.empty()==false&&s1.top().first<a[i])
+            if(s1.empty())
             {
-                left.pb(s1.top().second);
+                left.push_back(pleft);
+                s1.push({a[i],i});
+                continue;
             }
-            else if(s1.empty()==false&&s1.top().first>=a[i])
-            {
-                while(s1.empty()==false&&s1.top().first>=a[i])
-                {
-                    s1.pop();
-                }
-                if(s1.empty()==true)
-                    left.pb(pleft);
-                else
-                    left.pb(s1.top().second);
+            while(!s1.empty() && s1.top().first>=a[i])
+                s1.pop();
 
-            }
+            if(s1.empty()==true)
+                left.pb(pleft);
+            else
+                left.pb(s1.top().second);
+            
             s1.push({a[i],i});
         }
         // for(int i=0;i<n;i++)
@@ -39,25 +34,20 @@ public:
         int pright = n; 
         for(int i=n-1;i>=0;i--)
         {
-            if(s2.empty()==true){
+            if(s2.empty()==true)
+            {
                 right.pb(pright);
+                s2.push({a[i],i});
+                continue;
             }
-            else if(s2.empty()==false&&s2.top().first<a[i])
-            {
-                right.pb(s2.top().second);
-            }
-            else if(s2.empty()==false&&s2.top().first>=a[i])
-            {
-                while(s2.empty()==false&&s2.top().first>=a[i])
-                {
-                    s2.pop();
-                }
-                if(s2.empty()==true)
-                    right.pb(pright);
-                else
-                    right.pb(s2.top().second);
+            while(s2.empty()==false&&s2.top().first>=a[i])
+                s2.pop();
 
-            }
+            if(s2.empty()==true)
+                right.pb(pright);
+            else
+                right.pb(s2.top().second);
+            
             s2.push({a[i],i});
         }
         reverse(right.begin(),right.end());
