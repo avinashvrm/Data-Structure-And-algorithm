@@ -1,4 +1,6 @@
 /*
+https://leetcode.com/problems/minimum-number-of-days-to-disconnect-island/
+
 Observation
 ans <= 2
 ans is always less-equal to 2
