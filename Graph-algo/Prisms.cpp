@@ -1,11 +1,7 @@
 //Using Ajacency List
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <functional>
-#include <utility>
-
+#include<bits/stdc++.h>
 using namespace std;
+
 const int MAX = 1e4 + 5;
 typedef pair<long long, int> PII;
 bool marked[MAX];
@@ -55,6 +51,10 @@ int main()
     cout << minimumCost << endl;
     return 0;
 }
+
+
+
+
 // Using Ajacency Matrix
 #include<bits/stdc++.h>
 using namespace std;
